@@ -119,7 +119,6 @@ int main(int argc, char **argv) {
 
   while (true) {
     int i_dir_size = -pq_pop(&dir_size_heap);
-    // printf("i_dir_size is %d\n", i_dir_size);
     if (i_dir_size >= required_space) {
       printf("Delete directory with size %d\n", i_dir_size);
       break;
@@ -137,8 +136,6 @@ size_t total_dir_sizes_under_threshhold(fsnode_t *root) {
     i = root->files;
     do {
       size_t current_file_size = ((fsnode_t *)i->data)->file_size;
-      /*printf("Directory %s adding %lu from file %s\n", root->name,
-             current_file_size, ((fsnode_t *)i->data)->name);*/
       total_file_sum += current_file_size;
       i = i->next;
     } while (i != root->files);
