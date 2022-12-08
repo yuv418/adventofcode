@@ -42,7 +42,7 @@ void *pop(lln_t **h) {
   return d;
 }
 
-void p_s(lln_t **h) {
+/*void p_s(lln_t **h) {
   if ((*h) != NULL) {
     lln_t *i = (*h)->next;
     do {
@@ -53,4 +53,4 @@ void p_s(lln_t **h) {
     } while (i != *h);
   }
   printf("\n");
-}
+}*/

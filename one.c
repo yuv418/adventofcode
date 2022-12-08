@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
 
   int rsum = 0;
   for (int i = 0; i < 3; i++) {
-    int v = pop(&q);
+    int v = pq_pop(&q);
     printf("%d. %d\n", i + 1, v);
     rsum += v;
   }
