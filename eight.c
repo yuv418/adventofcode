@@ -7,6 +7,8 @@
 typedef enum vis { UNCHECKED, VISIBLE, HIDDEN } vis_t;
 typedef enum dir { UP, DOWN, LEFT, RIGHT } dir_t;
 
+// #define DEBUG
+
 // This is not a real tree.
 typedef struct tree {
   int val;
@@ -18,7 +20,7 @@ int total_visible = 0;
 
 int max_direction(tree_t **matrix, int i, int j, int grid_size, dir_t dir) {
   int i1 = i, j1 = j;
-  int max = 0;
+  int max = 1;
   while (!((i1 < 0 || i1 == grid_size) || (j1 < 0 || j1 == grid_size))) {
     if (matrix[i1][j1].val > max) { max = matrix[i1][j1].val; }
 
@@ -30,6 +32,35 @@ int max_direction(tree_t **matrix, int i, int j, int grid_size, dir_t dir) {
     }
   }
   return max;
+}
+int visible_trees(tree_t **matrix, int i, int j, int grid_size, dir_t dir) {
+  int orig_tree_height = matrix[i][j].val;
+
+  int i1 = i, j1 = j;
+  switch (dir) {
+  case UP: i1 -= 1; break;
+  case DOWN: i1 += 1; break;
+  case LEFT: j1 -= 1; break;
+  case RIGHT: j1 += 1; break;
+  }
+
+  int visible = 0;
+  while (!((i1 < 0 || i1 == grid_size) || (j1 < 0 || j1 == grid_size))) {
+    if (matrix[i1][j1].val >= orig_tree_height) {
+      visible++;
+      goto end;
+    }
+
+    switch (dir) {
+    case UP: i1 -= 1; break;
+    case DOWN: i1 += 1; break;
+    case LEFT: j1 -= 1; break;
+    case RIGHT: j1 += 1; break;
+    }
+    visible++;
+  }
+end:
+  return visible;
 }
 void check_direction(tree_t **matrix, int i, int j, int grid_size, dir_t dir) {
   // Calculate piece directly 1 to the direction specified
@@ -60,7 +91,9 @@ void check_direction(tree_t **matrix, int i, int j, int grid_size, dir_t dir) {
     //
     int max_in_dir = max_direction(matrix, i1, j1, grid_size, dir);
     if (matrix[i][j].val > max_in_dir) {
+#ifdef DEBUG
       printf("DEBUG: Adding %d %d from edge case\n", i, j);
+#endif
       goto visible;
     }
 
@@ -71,7 +104,9 @@ void check_direction(tree_t **matrix, int i, int j, int grid_size, dir_t dir) {
 visible:
   matrix[i][j].dir_vis[dir] = VISIBLE;
   if (!matrix[i][j].visible) {
+#ifdef DEBUG
     printf("DEBUG: matrix[%d][%d] = %d is visible\n", i, j, matrix[i][j].val);
+#endif
     total_visible++;
   }
   matrix[i][j].visible = true;
@@ -94,7 +129,9 @@ int main(int argc, char **argv) {
     grid_size--;
 
     if (tree_matrix == NULL) {
+#ifdef DEBUG
       printf("DEBUG: Grid size is %d\n", grid_size);
+#endif
       tree_matrix = calloc(grid_size, sizeof(int *));
       for (int i = 0; i < grid_size; i++) {
         tree_matrix[i] = calloc(grid_size, sizeof(tree_t));
@@ -106,19 +143,22 @@ int main(int argc, char **argv) {
     row++;
   }
   // Print matrix
+  int max_scenic_score = 0;
   for (int i = 0; i < grid_size; i++) {
     for (int j = 0; j < grid_size; j++) {
-      // Check if up is visible
-      // Check if down is visible
-      // Check if left is visible
-      // Check if right is visible
-      // printf("%d ", tree_matrix[i][j].val);
-      check_direction(tree_matrix, i, j, grid_size, UP);
-      check_direction(tree_matrix, i, j, grid_size, DOWN);
-      check_direction(tree_matrix, i, j, grid_size, LEFT);
-      check_direction(tree_matrix, i, j, grid_size, RIGHT);
+
+      int scenic_score = 1;
+      // Check directional + scenic scores
+      for (int k = 0; k < 4; k++) {
+        int vis_dir_trees = visible_trees(tree_matrix, i, j, grid_size, k);
+        scenic_score *= vis_dir_trees;
+        check_direction(tree_matrix, i, j, grid_size, k);
+      }
+      if (scenic_score > max_scenic_score) { max_scenic_score = scenic_score; }
+      printf("tree_matrix[%d][%d] scenic score %d\n", i, j, scenic_score);
     }
     printf("\n");
   }
   printf("Total visible nodes is %d\n", total_visible);
+  printf("Max scenic score is %d\n", max_scenic_score);
 }
