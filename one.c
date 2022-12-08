@@ -4,6 +4,8 @@
 
 #include "binaryheap.h"
 
+// Note to add an extra line at the end of input file
+
 #define ELF_LIMIT 500
 
 int main(int argc, char **argv) {
