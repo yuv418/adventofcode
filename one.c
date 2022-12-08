@@ -19,7 +19,8 @@ int main(int argc, char **argv) {
   int current_cal;
   int current_cal_elf;
 
-  // Predefining this limit is stupid
+  // Predefining this limit is not the best idea but we would have to implement
+  // a resizing PQ otherwise
   pq_t q = {
       .heap = malloc(ELF_LIMIT * sizeof(int)),
       .sz = ELF_LIMIT,
