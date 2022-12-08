@@ -155,9 +155,13 @@ int main(int argc, char **argv) {
         check_direction(tree_matrix, i, j, grid_size, k);
       }
       if (scenic_score > max_scenic_score) { max_scenic_score = scenic_score; }
+#ifdef DEBUG
       printf("tree_matrix[%d][%d] scenic score %d\n", i, j, scenic_score);
+#endif
     }
+#ifdef DEBUG
     printf("\n");
+#endif
   }
   printf("Total visible nodes is %d\n", total_visible);
   printf("Max scenic score is %d\n", max_scenic_score);
