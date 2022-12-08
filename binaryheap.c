@@ -11,13 +11,14 @@ void swap(pq_t *q, int key1, int key2) {
 
 void sink(pq_t *q, int key) {
   // No children
-  if (key * 2 < q->sz) {
+
+  if (key * 2 < q->i) {
     if (q->heap[key] < q->heap[key * 2] ||
         q->heap[key] < q->heap[(key * 2) + 1]) {
       // Choose the greater child key
 
       int gc_key = 0;
-      if (q->heap[key * 2] > q->heap[(key * 2) + 1]) {
+      if (q->heap[key * 2] > q->heap[(key * 2) + 1] || (key * 2) + 1 == q->i) {
         gc_key = key * 2;
       } else {
         gc_key = (key * 2) + 1;
@@ -47,20 +48,17 @@ void insert(pq_t *q, int val) {
   q->i++;
 }
 
-int pop(pq_t *q) {
+int pq_pop(pq_t *q) {
   swap(q, 1, q->i - 1);
   int d = q->heap[q->i - 1];
   q->heap[q->i - 1] = 0;
   q->i--;
   sink(q, 1);
-
   return d;
 }
 
 void print_q(pq_t *q) {
   printf("----\n");
-  for (int i = 1; i < q->i; i++) {
-    printf("%d\n", q->heap[i]);
-  }
+  for (int i = 1; i < q->i; i++) { printf("%d\n", q->heap[i]); }
   printf("----\n");
 }

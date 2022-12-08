@@ -5,7 +5,7 @@
 
 #include "stack.h"
 
-#define PART_TWO 1
+#define PART_TWO 0
 
 int main(int argc, char **argv) {
   FILE *inp = NULL;
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
         int r_i = (i - 1) / 4;
         if (l[i] != ' ') {
           printf("%d %c\n", r_i, l[i]);
-          enq(&s_s[r_i], l[i]);
+          enq(&s_s[r_i], (void *)l[i]);
         }
       }
     } else if (strstr(l, "move")) {
@@ -50,9 +50,9 @@ int main(int argc, char **argv) {
       lln_t *d = NULL;
 #endif
       for (int i = 0; i < num; i++) {
-        char p = pop(&s_s[src]);
+        char p = (char)pop(&s_s[src]);
 #ifdef PART_TWO
-        push(&d, p);
+        push(&d, (void *)p);
 // printf("Popped %c\n", p);
 #else
         push(&s_s[dest], p);
@@ -60,8 +60,8 @@ int main(int argc, char **argv) {
       }
 #ifdef PART_TWO
       for (int i = 0; i < num; i++) {
-        char p = pop(&d);
-        push(&s_s[dest], p);
+        char p = (void *)pop(&d);
+        push(&s_s[dest], (void *)p);
       }
 #endif
 
