@@ -52,10 +52,10 @@ enum rps_t find_move(enum rps_t mv1, enum result_t r) {
 }
 
 int main(int argc, char **argv) {
-  FILE *inp;
+  FILE *inp = NULL;
   inp = fopen("two.txt", "r+");
 
-  char *round;
+  char *round = NULL;
   size_t line_read_len;
 
   int pl_sc;

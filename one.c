@@ -9,10 +9,10 @@
 #define ELF_LIMIT 500
 
 int main(int argc, char **argv) {
-  FILE *inp;
+  FILE *inp = NULL;
 
   inp = fopen("one.txt", "r+");
-  char *current_num;
+  char *current_num = NULL;
   size_t line_read_len;
 
   int max_cal;
