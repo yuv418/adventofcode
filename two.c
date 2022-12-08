@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
     enum result_t pl_r = pl_mv_c;
     pl_mv = find_move(op_mv, pl_r);
 
-    printf("Chose player move %d\n", pl_mv);
+    // printf("Chose player move %d\n", pl_mv);
 
 #else
 
@@ -103,5 +103,5 @@ int main(int argc, char **argv) {
     op_sc += op_mv;
   }
   printf("Player score is %d\n", pl_sc);
-  printf("Opponent score is %d", op_sc);
+  printf("Opponent score is %d\n", op_sc);
 }
