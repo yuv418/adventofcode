@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void enq(lln_t **h, char d) {
+void enq(lln_t **h, void *d) {
   // Questionable implementation
   lln_t *n_h = malloc(sizeof(lln_t));
   n_h->data = d;
@@ -16,7 +16,7 @@ void enq(lln_t **h, char d) {
   *h = n_h;
 }
 
-void push(lln_t **h, char d) {
+void push(lln_t **h, void *d) {
   lln_t *n_h = malloc(sizeof(lln_t));
   n_h->data = d;
   if ((*h) == NULL) {
@@ -28,14 +28,14 @@ void push(lln_t **h, char d) {
   }
 }
 
-char pop(lln_t **h) {
+void *pop(lln_t **h) {
   if ((*h) == (*h)->next) {
-    char d = (*h)->data;
+    void *d = (*h)->data;
     *h = NULL;
     return d;
   }
   lln_t *o_h = (*h)->next;
-  char d = o_h->data;
+  void *d = o_h->data;
   (*h)->next = o_h->next;
 
   free(o_h);
